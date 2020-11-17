@@ -1,8 +1,9 @@
 const logInHandler = require("./handlers/logInHandler");
 const publicHandler = require("./handlers/publicHandler");
-const notfoundHandler = require("./handlers/notFound");
-const serverErrorHandler = require("./handlers/serverError");
-
+const notfoundHandler = require("./handlers/notFoundHandler");
+const serverErrorHandler = require("./handlers/serverErrorHandler");
+const signUpHandler = require("./handlers/signUpHandler")
+const urlModule = require("url");
 module.exports = (req, res) => {
   const { url } = req;
   if (url === "/") {
@@ -10,8 +11,11 @@ module.exports = (req, res) => {
   } else if (url.startsWith("/public")) {
     publicHandler(req, res);
   } else if (url === "/serverError") {
-    serverErrorHandler(request, response);
-  } else {
+    serverErrorHandler(req, res);
+  } else if (url === "/sign-up") {
+    signUpHandler(req, res);
+  }
+  else {
     notfoundHandler(req, res);
   }
 };

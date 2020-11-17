@@ -11,7 +11,10 @@ function serverErrorHandler(request, response) {
       return;
     }
     response.end(file);
+
   });
 }
+
+
 
 module.exports = serverErrorHandler;
