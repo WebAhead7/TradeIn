@@ -19,11 +19,11 @@ function publicHandler(request, response) {
         response.end();
         return;
       }
-      response(200, { "content-type": contentType });
+      response.writeHead(200, { "content-type": contentType });
       response.end(file);
     });
   } else {
-    response.wirteHead(302, { location: "/notFound" });
+    response.writeHead(302, { location: "/notFound" });
     response.end();
   }
 }

@@ -12,6 +12,6 @@ module.exports = (req, res) => {
   } else if (url === "/serverError") {
     serverErrorHandler(request, response);
   } else {
-    notfoundHandler(request, response);
+    notfoundHandler(req, res);
   }
 };
