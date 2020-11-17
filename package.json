@@ -2,5 +2,8 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "pg": "^8.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }
