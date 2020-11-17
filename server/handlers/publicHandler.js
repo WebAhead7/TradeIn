@@ -1,31 +1,31 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
-const contentTypes = {
-  ".js": "application/javascript",
-  ".html": "text/html",
-  ".css": "text/css",
+const types = {
+  html: 'text/html',
+  css: 'text/css',
+  js: 'application/javascript',
+  jpg: 'image/jpeg',
+  ico: 'image/x-icon',
 };
 
 function publicHandler(request, response) {
-  // url = public\index.css , public/src/home.html
   const { url } = request;
-  const filePath = path.join(__dirname, "..", "..", url);
-  const contentType = contentTypes[path.extname(url)];
-  if (contentType) {
-    fs.readFile(filePath, (err, file) => {
-      if (err) {
-        response.wirteHead(302, { location: "/serverError" });
-        response.end();
-        return;
-      }
-      response.writeHead(200, { "content-type": contentType });
+  const urlArray = url.split('.');
+  const extension = urlArray[1];
+  const type = types[extension];
+
+  const filePath = path.join(__dirname, '..', '..', url);
+  fs.readFile(filePath, (error, file) => {
+    if (error) {
+      console.log(error);
+      response.writeHead(404, { 'content-type': 'text/html' });
+      response.end('<h1>Not found</h1>');
+    } else {
+      response.writeHead(200, { 'content-type': type });
       response.end(file);
-    });
-  } else {
-    response.writeHead(302, { location: "/notFound" });
-    response.end();
-  }
+    }
+  });
 }
 
 module.exports = publicHandler;
