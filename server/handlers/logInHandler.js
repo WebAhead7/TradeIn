@@ -1,15 +1,17 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports = (req, res) => {
+function logInHandler(request, response) {
   const filePath = path.join(__dirname, '..', '..', 'public', 'index.html');
-  fs.readFile(filePath, (err, file) => {
-    res.setHeader('type-content', 'text/html');
-    if (err) {
-      res.status(404);
-      res.end('<h1>Error</h1>');
-      return;
+  fs.readFile(filePath, (error, file) => {
+    if (error) {
+      console.log(error);
+      response.writeHead(404, { 'content-type': 'text/html' });
+      response.end('<h1>Not found</h1>');
+    } else {
+      response.writeHead(200, { 'content-type': 'text/html' });
+      response.end(file);
     }
-    res.end(file);
   });
-};
+}
+module.exports = logInHandler;
