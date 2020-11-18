@@ -4,6 +4,7 @@ const models = require("../models");
 
 function signUpHandler(request, response) {
   let body = "";
+  console.log("");
   request.on("data", (chunk) => {
     body += chunk;
   });
