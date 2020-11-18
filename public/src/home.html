@@ -26,12 +26,21 @@
             class="trade-in"
             placeholder="trade in item"
           />
+
+          <div class="alert alert-danger hide trade-in-alert" role="alert">
+            Please insert trade in!
+          </div>
+
           <input
             type="text"
             name="trade-out"
             class="trade-out"
             placeholder="trade in item"
           />
+          <div class="alert alert-danger hide trade-out-alert" role="alert">
+            Please insert trade out!
+          </div>
+
           <textarea
             name="description"
             class="description"
@@ -39,6 +48,10 @@
             rows="10"
             placeholder="description"
           ></textarea>
+
+          <div class="alert alert-danger hide description-alert" role="alert">
+            Please insert description!
+          </div>
           <button type="submit" class="add-post-btn">Add Post</button>
         </form>
       </div>

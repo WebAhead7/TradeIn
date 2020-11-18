@@ -27,17 +27,17 @@ function getMyPosts() {
   return filterPostsByEmail(email);
 }
 
-function showAllPostsOrMyPosts(AllOrMy) {
-  if (AllOrMy === 'all') {
+function showAllPostsOrMyPosts(allOrMy) {
+  if (allOrMy === 'all') {
     document.querySelector('.my-posts-container').classList.add('hide');
     document.querySelector('.all-posts-container').classList.remove('hide');
-  } else if (AllOrMy === 'my') {
+  } else if (allOrMy === 'my') {
     document.querySelector('.my-posts-container').classList.remove('hide');
     document.querySelector('.all-posts-container').classList.add('hide');
   }
 }
 
-function getFormInputsAndRestartInputs() {
+function getFormInputs() {
   const tradeIn = document.querySelector('.trade-in').value;
   const tradeOut = document.querySelector('.trade-out').value;
   const description = document.querySelector('.description').value;
@@ -45,9 +45,52 @@ function getFormInputsAndRestartInputs() {
   return { tradeIn, tradeOut, description };
 }
 
+function restartFormInputs() {
+  document.querySelector('.trade-in').value = '';
+  document.querySelector('.trade-out').value = '';
+  document.querySelector('.description').value = '';
+}
+
 function updateContainersWithNewPost(newPost) {
   addPostsToContainer([newPost], '.my-posts-container');
   addPostsToContainer([newPost], '.all-posts-container');
+}
+
+function sendNewPostToServer(post) {
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(post),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log('Success:', data))
+    .catch((error) => console.error('Error:', error));
+}
+
+function validateInputs({ tradeIn, tradeOut, description }) {
+  const tradeInTrimmed = tradeIn.trim();
+  const tradeOutTrimmed = tradeOut.trim();
+  const descriptionTrimmed = description.trim();
+
+  if (!tradeInTrimmed) {
+    document.querySelector('.trade-in-alert').classList.remove('hide');
+  } else {
+    document.querySelector('.trade-in-alert').classList.add('hide');
+  }
+
+  if (!tradeOutTrimmed) {
+    document.querySelector('.trade-out-alert').classList.remove('hide');
+  } else {
+    document.querySelector('.trade-out-alert').classList.add('hide');
+  }
+
+  if (!descriptionTrimmed) {
+    document.querySelector('.description-alert').classList.remove('hide');
+  } else {
+    document.querySelector('.description-alert').classList.add('hide');
+  }
+
+  return tradeInTrimmed && tradeOutTrimmed && descriptionTrimmed;
 }
 
 window.addEventListener('load', () => {
@@ -66,7 +109,12 @@ document.querySelector('.all-posts-btn').addEventListener('click', () => {
 
 document.querySelector('.form').addEventListener('submit', (e) => {
   e.preventDefault();
-  const { tradeIn, tradeOut, description } = getFormInputsAndRestartInputs();
+  const { tradeIn, tradeOut, description } = getFormInputs();
+
+  if (!validateInputs({ tradeIn, tradeOut, description })) {
+    return;
+  }
+  restartFormInputs();
   const newPost = {
     email,
     text_content: description,
@@ -76,4 +124,5 @@ document.querySelector('.form').addEventListener('submit', (e) => {
   };
   posts.unshift(newPost);
   updateContainersWithNewPost(newPost);
+  sendNewPostToServer(newPost);
 });
