@@ -1,17 +1,43 @@
-const fs = require('fs');
-const path = require('path');
-
+const models = require("../models");
+const redirectHandler = require("./redirectHandler");
 function logInHandler(request, response) {
-  const filePath = path.join(__dirname, '..', '..', 'public', 'index.html');
-  fs.readFile(filePath, (error, file) => {
-    if (error) {
-      console.log(error);
-      response.writeHead(404, { 'content-type': 'text/html' });
-      response.end('<h1>Not found</h1>');
-    } else {
-      response.writeHead(200, { 'content-type': 'text/html' });
-      response.end(file);
-    }
+  let body = "";
+  request.on("data", (chunk) => (body += chunk));
+  request.on("end", () => {
+    console.log(body);
+    const userDetails = JSON.parse(body);
+    models
+      .userWithEmailAndPasswordExist(userDetails)
+      .then((found) => {
+        if (!found) {
+          response.writeHead(401, { "content-type": "application/json" });
+          response.end(JSON.stringify({ msg: "Unauthenticated user !" }));
+          return;
+        }
+        return models.getAllTradeInPosts();
+      })
+      .then((posts) => {
+        const { email, password } = userDetails;
+        response.writeHead(200, { "content-type": "application/json" });
+        response.end(
+          JSON.stringify({
+            msg: "logged in successfully",
+            url: "/public/src/home.html",
+            posts,
+            email,
+            password,
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+        redirectHandler(response, "/serverError");
+      });
+  });
+  request.on("error", (err) => {
+    console.error(err);
+    redirectHandler(response, "/serverError");
   });
 }
+
 module.exports = logInHandler;

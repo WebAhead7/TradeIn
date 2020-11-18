@@ -16,13 +16,27 @@ function getAllPostFromUserId(id) {
     .then((res) => res.rows);
 }
 
-function addUser(user) {}
+function getAllUsers() {
+  return db.query('select * from users').then((result) => result.rows);
+}
 
-function addPost(post) {}
+function insertNewUser(user) {
+  return db.query(
+    'insert into users (username,email,password,location) values ($1,$2,$3,$4) returning (username,email,location)',
+    [user.username, user.email, user.password, user.location]
+  );
+}
+
+function getUserByEmail(email) {
+  return db
+    .query('select * from users where email = $1', [email])
+    .then((result) => result.rows);
+}
 module.exports = {
   getAllPosts,
   getUserWithEmail,
   getAllPostFromUserId,
-  addUser,
-  addPost,
+  getUserByEmail,
+  getAllUsers,
+  insertNewUser,
 };
