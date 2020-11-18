@@ -29,7 +29,7 @@ function userWithEmailAndPasswordExist({ email, password }) {
 function getAllTradeInPosts() {
   return db
     .query(
-      'select username, trade_in, trade_out, text_content from users right join trade_posts on users.id = trade_posts.user_id'
+      'select username, trade_in, trade_out, text_content,email from users right join trade_posts on users.id = trade_posts.user_id'
     )
     .then((result) => result.rows);
 }

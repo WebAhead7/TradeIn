@@ -1,22 +1,22 @@
-const homeUrl = "http://localhost:3000/";
+const homeUrl = 'http://localhost:3000/';
 
-document.getElementById("loginform").addEventListener("submit", (event) => {
+document.getElementById('loginform').addEventListener('submit', (event) => {
   event.preventDefault();
-  const message = document.getElementById("message");
-  message.innerText = "";
+  const message = document.getElementById('message');
+  message.innerText = '';
   fetch(`${homeUrl}log-in`, {
-    method: "POST",
-    redirect: "follow",
+    method: 'POST',
+    redirect: 'follow',
     headers: {
-      "content-type": "application/json",
+      'content-type': 'application/json',
     },
     body: JSON.stringify({
-      email: document.getElementById("email").value,
-      password: document.getElementById("password").value,
+      email: document.getElementById('email').value,
+      password: document.getElementById('password').value,
     }),
   })
     .then((response) => {
-      if (!response.ok) throw new Error("Error fetch response");
+      if (!response.ok) throw new Error('Error fetch response');
       return response.json();
     })
     .then((data) => {
@@ -25,7 +25,7 @@ document.getElementById("loginform").addEventListener("submit", (event) => {
       message.innerText = msg;
       if (url) {
         localStorage.setItem(
-          "userdetails",
+          'userdetails',
           JSON.stringify({
             posts,
             email,
