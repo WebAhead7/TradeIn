@@ -1,5 +1,5 @@
 const string = "home page ...";
-const { email, password, posts } = JSON.parse(
+const { email, password, posts, username } = JSON.parse(
   localStorage.getItem("userdetails")
 );
-console.log({ email, posts, password });
+console.log({ email, posts, password, username });

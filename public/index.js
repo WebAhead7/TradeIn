@@ -21,7 +21,7 @@ document.getElementById("loginform").addEventListener("submit", (event) => {
     })
     .then((data) => {
       console.log(data);
-      const { msg, url, posts, email, password } = data;
+      const { msg, url, posts, email, password, username } = data;
       message.innerText = msg;
       if (url) {
         localStorage.setItem(
@@ -30,6 +30,7 @@ document.getElementById("loginform").addEventListener("submit", (event) => {
             posts,
             email,
             password,
+            username,
           })
         );
         window.location.replace(url);
