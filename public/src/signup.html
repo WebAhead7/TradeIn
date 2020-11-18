@@ -4,27 +4,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="signup.css">
+  <link rel="stylesheet" href="signup.css" />
   <title>Sign Up</title>
 </head>
 
 <body>
   <div class="container">
-    <h1>Register</h1>
+    <h2>Sign UP</h2>
     <form id="signupform" action="/sign-up" method="POST">
-      <input placeholder="Example@mail.com" type="email" name="email" id="email" required; />
-      <input placeholder="User Name " type="text" name="username" id="username" required />
+      <input placeholder="email@email.com" type="email" name="email" id="email" required; />
+      <input placeholder="username" type="text" name="username" id="username" required />
       <input placeholder="password" type="password" name="password" id="password" required />
       <input placeholder="confirm passwrd" type="password" name="confirmPassword" id="confirmPassword" required />
       <input placeholder="city, state." type="text" name="location" id="location" required />
 
-      <label id="checkboxLabel" for="checkbox">i agree to the privacy policy</label>
-      <input id="checkbox" type="checkbox" name="checkbox" required />
+      <body>
+        <div class="container">
+          <h1>Register</h1>
+          <form id="signupform" action="/sign-up" method="POST">
+            <input placeholder="Example@mail.com" type="email" name="email" id="email" required; />
+            <input placeholder="User Name " type="text" name="username" id="username" required />
+            <input placeholder="password" type="password" name="password" id="password" required />
+            <input placeholder="confirm passwrd" type="password" name="confirmPassword" id="confirmPassword" required />
+            <input placeholder="city, state." type="text" name="location" id="location" required />
 
-      <input type="submit" value="Submit" id="submitbtn" />
-    </form>
-  </div>
-  <script src="signup.js"></script>
-</body>
+            <label id="checkboxLabel" for="checkbox">i agree to the privacy policy</label>
+            <input id="checkbox" type="checkbox" name="checkbox" required />
+
+            <input type="submit" value="Submit" id="submitbtn" />
+          </form>
+          <p id="message"></p>
+
+        </div>
+        <script src="signup.js"></script>
+      </body>
 
 </html>
