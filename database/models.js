@@ -35,23 +35,24 @@ function getAllTradeInPosts() {
 }
 
 function insertNewPost({ text_content, trade_in, trade_out, email, password }) {
-  db.query("select id from users where email = $1 and password =", [
+  db.query("select id from users where email = $1 and password =$2", [
     email,
     password,
   ])
     .then((result) => {
       if (result.rowCount >= 0) {
-        return result.rows[0];
+        return result.rows[0].id;
       } else {
         throw new Error(`Bad usage: ${email} doesn't match any user`);
       }
     })
     .then((userid) => {
       db.query(
-        "insert into trade_posts (user_id,text_content,trade_in,trade_out",
+        "insert into trade_posts (user_id,text_content,trade_in,trade_out) values ($1,$2,$3,$4)",
         [userid, text_content, trade_in, trade_out]
       );
-    });
+    })
+    .catch(console.error);
 }
 
 module.exports = {
@@ -60,4 +61,5 @@ module.exports = {
   insertNewUser,
   userWithEmailAndPasswordExist,
   getAllTradeInPosts,
+  insertNewPost,
 };
