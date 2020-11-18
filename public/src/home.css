@@ -11,7 +11,7 @@
   border: 1px solid green;
 }
 
-.posts-container {
+.all-posts-container {
   width: 70%;
   border: 1px solid red;
 }
@@ -22,4 +22,6 @@
   margin: 1vh 0px;
 }
 
-
+.hide {
+  display: none;
+}
