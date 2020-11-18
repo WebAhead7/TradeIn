@@ -7,6 +7,8 @@ const urlModule = require("url");
 
 module.exports = (req, res) => {
   const { url } = req;
+  console.log(url);
+
   if (url === '/') {
     logInHandler(req, res);
   } else if (url.startsWith('/public')) {
@@ -14,6 +16,7 @@ module.exports = (req, res) => {
   } else if (url === "/serverError") {
     serverErrorHandler(req, res);
   } else if (url === "/sign-up") {
+    console.log(url);
     signUpHandler(req, res);
   }
   else {
