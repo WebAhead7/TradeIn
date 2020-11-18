@@ -15,4 +15,14 @@ function getAllPostFromUserId(id) {
     .query(`SELECT * FROM trade_posts WHERE user_id=${id}`)
     .then((res) => res.rows);
 }
-module.exports = { getAllPosts, getUserWithEmail, getAllPostFromUserId };
+
+function addUser(user) {}
+
+function addPost(post) {}
+module.exports = {
+  getAllPosts,
+  getUserWithEmail,
+  getAllPostFromUserId,
+  addUser,
+  addPost,
+};
