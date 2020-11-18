@@ -17,12 +17,15 @@ function logInHandler(request, response) {
         return models.getAllTradeInPosts();
       })
       .then((posts) => {
+        const { email, password } = userDetails;
         response.writeHead(200, { "content-type": "application/json" });
         response.end(
           JSON.stringify({
             msg: "logged in successfully",
             url: "/public/src/home.html",
             posts,
+            email,
+            password,
           })
         );
       })

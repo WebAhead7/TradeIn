@@ -1,6 +1,6 @@
 const homeUrl = "http://localhost:3000/";
 
-document.getElementById("login").addEventListener("submit", (event) => {
+document.getElementById("loginform").addEventListener("submit", (event) => {
   event.preventDefault();
   const message = document.getElementById("message");
   message.innerText = "";
@@ -21,9 +21,17 @@ document.getElementById("login").addEventListener("submit", (event) => {
     })
     .then((data) => {
       console.log(data);
-      const { msg, url, posts } = data;
+      const { msg, url, posts, email, password } = data;
       message.innerText = msg;
       if (url) {
+        localStorage.setItem(
+          "userdetails",
+          JSON.stringify({
+            posts,
+            email,
+            password,
+          })
+        );
         window.location.replace(url);
       }
     })
