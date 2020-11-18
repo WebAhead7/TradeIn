@@ -4,6 +4,8 @@ const {
   getAllPosts,
   getUserWithEmail,
   getAllPostFromUserId,
+  insertNewUser,
+  getAllUsers,
 } = require('../model');
 
 test('Can get all posts', (t) => {
@@ -29,6 +31,17 @@ test('Can get all posts from user', (t) => {
     getAllPostFromUserId(1).then((res) => {
       console.log(res);
     });
+  });
+  t.end();
+});
+
+test('Can insert new user', (t) => {
+  build().then(() => {
+    const newUser = {
+      username: 'a',
+      email: 'a',
+    };
+    insertNewUser(newUser).then((res) => console.log(res));
   });
   t.end();
 });
