@@ -1,95 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<<<<<<< HEAD
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./home.css" />
-  <title>Home</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-</head>
-
 <body>
+  <div class="header">
+    <h1>TradeIn</h1>
+    <div class="display-options">
+      <button class="option-btn all-posts-btn" id="allPostsBtn">
+        All Posts
+      </button>
+      <button class="option-btn my-posts-btn" id="myPostsBtn">
+        My Posts
+      </button>
+      <button class="option-btn" id="logout">Logout</button>
+    </div>
+  </div>
   <div class="main-container">
     <div class="left-container">
-      <button class="my-btn" id="logout">Logout</button>
-      <button class="my-btn all-posts-btn" id="logout">All Posts</button>
-      <button class="my-btn my-posts-btn" id="logout">My Posts</button>
-      <form class="form">
-        <input type="text" name="trade-in" class="trade-in" placeholder="trade in item" />
+      <form class="form" id="postForm">
+        <h4>Add Trade Post</h4>
+        <label for="trade-in">Want</label>
+        <input type="text" name="trade-in" class="trade-input" id="trade_in" placeholder="trade in item" required />
+        <label for="trade-in">Have</label>
+        <input type="text" name="trade-out" class="trade-input" id="trade_out" placeholder="trade out item" required />
 
-        <div class="alert alert-danger hide trade-in-alert" role="alert">
-          Please insert trade in!
-        </div>
-
-        <input type="text" name="trade-out" class="trade-out" placeholder="trade in item" />
-        <div class="alert alert-danger hide trade-out-alert" role="alert">
-          Please insert trade out!
-        </div>
-
-        <textarea name="description" class="description" cols="30" rows="10" placeholder="description"></textarea>
-
-        <div class="alert alert-danger hide description-alert" role="alert">
-          Please insert description!
-        </div>
+        <textarea name="description" class="description" id="description" cols="30" rows="7" placeholder="description"
+          required></textarea>
         <button type="submit" class="add-post-btn">Add Post</button>
       </form>
-=======
-  <body>
-    <div class="header">
-      <h1>TradeIn</h1>
-      <div class="display-options">
-        <button class="option-btn all-posts-btn" id="allPostsBtn">
-          All Posts
-        </button>
-        <button class="option-btn my-posts-btn" id="myPostsBtn">
-          My Posts
-        </button>
-        <button class="option-btn" id="logout">Logout</button>
-      </div>
     </div>
-    <div class="main-container">
-      <div class="left-container">
-        <form class="form" id="postForm">
-          <h4>Add Trade Post</h4>
-          <label for="trade-in">Want</label>
-          <input
-            type="text"
-            name="trade-in"
-            class="trade-input"
-            id="trade_in"
-            placeholder="trade in item"
-            required
-          />
-          <label for="trade-in">Have</label>
-          <input
-            type="text"
-            name="trade-out"
-            class="trade-input"
-            id="trade_out"
-            placeholder="trade out item"
-            required
-          />
-
-          <textarea
-            name="description"
-            class="description"
-            id="description"
-            cols="30"
-            rows="7"
-            placeholder="description"
-            required
-          ></textarea>
-          <button type="submit" class="add-post-btn">Add Post</button>
-        </form>
-      </div>
-      <div class="all-posts-container" id="allPostsContainer"></div>
->>>>>>> 534fb56cf0742b98c02fc272873ac0d07e9ca1be
-    </div>
-    <div class="all-posts-container"></div>
-    <div class="my-posts-container hide"></div>
+    <div class="all-posts-container" id="allPostsContainer"></div>
+  </div>
+  <div class="all-posts-container"></div>
+  <div class="my-posts-container hide"></div>
   </div>
   <script src="home.js"></script>
 </body>
