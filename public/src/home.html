@@ -14,49 +14,54 @@
   </head>
 
   <body>
+    <div class="header">
+      <h1>TradeIn</h1>
+      <div class="display-options">
+        <button class="option-btn all-posts-btn" id="allPostsBtn">
+          All Posts
+        </button>
+        <button class="option-btn my-posts-btn" id="myPostsBtn">
+          My Posts
+        </button>
+        <button class="option-btn" id="logout">Logout</button>
+      </div>
+    </div>
     <div class="main-container">
       <div class="left-container">
-        <button class="my-btn" id="logout">Logout</button>
-        <button class="my-btn all-posts-btn" id="logout">All Posts</button>
-        <button class="my-btn my-posts-btn" id="logout">My Posts</button>
-        <form class="form">
+        <form class="form" id="postForm">
+          <h4>Add Trade Post</h4>
+          <label for="trade-in">Want</label>
           <input
             type="text"
             name="trade-in"
-            class="trade-in"
+            class="trade-input"
+            id="trade_in"
             placeholder="trade in item"
+            required
           />
-
-          <div class="alert alert-danger hide trade-in-alert" role="alert">
-            Please insert trade in!
-          </div>
-
+          <label for="trade-in">Have</label>
           <input
             type="text"
             name="trade-out"
-            class="trade-out"
-            placeholder="trade in item"
+            class="trade-input"
+            id="trade_out"
+            placeholder="trade out item"
+            required
           />
-          <div class="alert alert-danger hide trade-out-alert" role="alert">
-            Please insert trade out!
-          </div>
 
           <textarea
             name="description"
             class="description"
+            id="description"
             cols="30"
-            rows="10"
+            rows="7"
             placeholder="description"
+            required
           ></textarea>
-
-          <div class="alert alert-danger hide description-alert" role="alert">
-            Please insert description!
-          </div>
           <button type="submit" class="add-post-btn">Add Post</button>
         </form>
       </div>
-      <div class="all-posts-container"></div>
-      <div class="my-posts-container hide"></div>
+      <div class="all-posts-container" id="allPostsContainer"></div>
     </div>
     <script src="home.js"></script>
   </body>
