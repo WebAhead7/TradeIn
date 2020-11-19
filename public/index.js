@@ -4,7 +4,7 @@ document.getElementById('loginform').addEventListener('submit', (event) => {
   event.preventDefault();
   const message = document.getElementById('message');
   message.innerText = '';
-  fetch(`${homeUrl}log-in`, {
+  fetch('/log-in', {
     method: 'POST',
     redirect: 'follow',
     headers: {

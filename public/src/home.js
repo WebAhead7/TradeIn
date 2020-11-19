@@ -1,11 +1,16 @@
-const { email, password, posts } = JSON.parse(
-  localStorage.getItem("userdetails")
+const { email, password, posts, username } = JSON.parse(
+  localStorage.getItem('userdetails')
 );
-console.log({ email, posts, password, username });
+console.log({
+  email,
+  posts,
+  password,
+  username,
+});
 
 function createPostElem(post) {
-  const div = document.createElement("div");
-  div.classList.add("alert", "alert-primary");
+  const div = document.createElement('div');
+  div.classList.add('alert', 'alert-primary');
   div.innerText = `${post.text_content}`;
   return div;
 }
@@ -28,43 +33,43 @@ function getMyPosts() {
 }
 
 function showAllPostsOrMyPosts(allOrMy) {
-  if (allOrMy === "all") {
-    document.querySelector(".my-posts-container").classList.add("hide");
-    document.querySelector(".all-posts-container").classList.remove("hide");
-  } else if (allOrMy === "my") {
-    document.querySelector(".my-posts-container").classList.remove("hide");
-    document.querySelector(".all-posts-container").classList.add("hide");
+  if (allOrMy === 'all') {
+    document.querySelector('.my-posts-container').classList.add('hide');
+    document.querySelector('.all-posts-container').classList.remove('hide');
+  } else if (allOrMy === 'my') {
+    document.querySelector('.my-posts-container').classList.remove('hide');
+    document.querySelector('.all-posts-container').classList.add('hide');
   }
 }
 
 function getFormInputs() {
-  const tradeIn = document.querySelector(".trade-in").value;
-  const tradeOut = document.querySelector(".trade-out").value;
-  const description = document.querySelector(".description").value;
+  const tradeIn = document.querySelector('.trade-in').value;
+  const tradeOut = document.querySelector('.trade-out').value;
+  const description = document.querySelector('.description').value;
 
   return { tradeIn, tradeOut, description };
 }
 
 function restartFormInputs() {
-  document.querySelector(".trade-in").value = "";
-  document.querySelector(".trade-out").value = "";
-  document.querySelector(".description").value = "";
+  document.querySelector('.trade-in').value = '';
+  document.querySelector('.trade-out').value = '';
+  document.querySelector('.description').value = '';
 }
 
 function updateContainersWithNewPost(newPost) {
-  addPostsToContainer([newPost], ".my-posts-container");
-  addPostsToContainer([newPost], ".all-posts-container");
+  addPostsToContainer([newPost], '.my-posts-container');
+  addPostsToContainer([newPost], '.all-posts-container');
 }
 
 function sendNewPostToServer(post) {
-  fetch("/", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+  fetch('/add-new-post', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(post),
   })
     .then((response) => response.json())
-    .then((data) => console.log("Success:", data))
-    .catch((error) => console.error("Error:", error));
+    .then((data) => console.log('Success:', data))
+    .catch((error) => console.log('Error:', error));
 }
 
 function validateInputs({ tradeIn, tradeOut, description }) {
@@ -73,41 +78,41 @@ function validateInputs({ tradeIn, tradeOut, description }) {
   const descriptionTrimmed = description.trim();
 
   if (!tradeInTrimmed) {
-    document.querySelector(".trade-in-alert").classList.remove("hide");
+    document.querySelector('.trade-in-alert').classList.remove('hide');
   } else {
-    document.querySelector(".trade-in-alert").classList.add("hide");
+    document.querySelector('.trade-in-alert').classList.add('hide');
   }
 
   if (!tradeOutTrimmed) {
-    document.querySelector(".trade-out-alert").classList.remove("hide");
+    document.querySelector('.trade-out-alert').classList.remove('hide');
   } else {
-    document.querySelector(".trade-out-alert").classList.add("hide");
+    document.querySelector('.trade-out-alert').classList.add('hide');
   }
 
   if (!descriptionTrimmed) {
-    document.querySelector(".description-alert").classList.remove("hide");
+    document.querySelector('.description-alert').classList.remove('hide');
   } else {
-    document.querySelector(".description-alert").classList.add("hide");
+    document.querySelector('.description-alert').classList.add('hide');
   }
 
   return tradeInTrimmed && tradeOutTrimmed && descriptionTrimmed;
 }
 
-window.addEventListener("load", () => {
-  addPostsToContainer(posts, ".all-posts-container");
+window.addEventListener('load', () => {
+  addPostsToContainer(posts, '.all-posts-container');
   const myPosts = getMyPosts();
-  addPostsToContainer(myPosts, ".my-posts-container");
+  addPostsToContainer(myPosts, '.my-posts-container');
 });
 
-document.querySelector(".my-posts-btn").addEventListener("click", () => {
-  showAllPostsOrMyPosts("my");
+document.querySelector('.my-posts-btn').addEventListener('click', () => {
+  showAllPostsOrMyPosts('my');
 });
 
-document.querySelector(".all-posts-btn").addEventListener("click", () => {
-  showAllPostsOrMyPosts("all");
+document.querySelector('.all-posts-btn').addEventListener('click', () => {
+  showAllPostsOrMyPosts('all');
 });
 
-document.querySelector(".form").addEventListener("submit", (e) => {
+document.querySelector('.form').addEventListener('submit', (e) => {
   e.preventDefault();
   const { tradeIn, tradeOut, description } = getFormInputs();
 
@@ -120,9 +125,9 @@ document.querySelector(".form").addEventListener("submit", (e) => {
     text_content: description,
     trade_in: tradeIn,
     trade_out: tradeOut,
-    username: "mm",
+    username,
   };
   posts.unshift(newPost);
   updateContainersWithNewPost(newPost);
-  sendNewPostToServer(newPost);
+  sendNewPostToServer({ ...newPost, password });
 });
