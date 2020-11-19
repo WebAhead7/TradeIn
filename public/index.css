@@ -3,10 +3,8 @@ body{
     justify-content: center;
     align-items: center;
     height:90vh;
-    background-image: url("bg2.jpg");
-    background-repeat: no-repeat;
-    background-size: auto;
-    color: white;
+    background-color: rgb(0, 0, 0,0.5);
+    color: rgb(255, 255, 255,0.9);
 }
 .container{
     display: flex;
@@ -15,7 +13,7 @@ body{
     height: 80vh;
     border: 1px solid rgb(255, 255, 255);
     border-radius: 5px;
-    background-color: rgb(16, 41, 64,0.8);
+    background-color: rgba(0, 0, 0, 0.8);
 }
 h1{
     margin: auto;
