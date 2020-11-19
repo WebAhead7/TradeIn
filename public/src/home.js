@@ -79,7 +79,7 @@ document.getElementById("postForm").addEventListener("submit", (event) => {
     trade_out: trade_out.value,
     text_content: description.value,
   };
-  fetch(`${homeUrl}add-new-post`, {
+  fetch(`/add-new-post`, {
     method: "POST",
     redirect: "follow",
     headers: {
@@ -116,7 +116,7 @@ document.getElementById("myPostsBtn").addEventListener("click", (event) => {
 
 document.getElementById("allPostsBtn").addEventListener("click", (event) => {
   event.preventDefault();
-  fetch(`${homeUrl}log-in`, {
+  fetch(`/log-in`, {
     method: "POST",
     redirect: "follow",
     headers: {
@@ -142,9 +142,8 @@ document.getElementById("allPostsBtn").addEventListener("click", (event) => {
     .catch(console.error);
 });
 
-document.getElementById("logout").
-  addEventListener("click", (event) => {
-    event.preventDefault();
-    localStorage.removeItem("userdetails");
-    window.location.replace("/");
-  });
+document.getElementById("logout").addEventListener("click", (event) => {
+  event.preventDefault();
+  localStorage.removeItem("userdetails");
+  window.location.replace("/");
+});
