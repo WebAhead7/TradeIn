@@ -17,8 +17,12 @@
     <div class="header">
       <h1>TradeIn</h1>
       <div class="display-options">
-        <button class="option-btn all-posts-btn" id="logout">All Posts</button>
-        <button class="option-btn my-posts-btn" id="logout">My Posts</button>
+        <button class="option-btn all-posts-btn" id="allPostsBtn">
+          All Posts
+        </button>
+        <button class="option-btn my-posts-btn" id="myPostsBtn">
+          My Posts
+        </button>
         <button class="option-btn" id="logout">Logout</button>
       </div>
     </div>
@@ -33,6 +37,7 @@
             class="trade-input"
             id="trade_in"
             placeholder="trade in item"
+            required
           />
           <label for="trade-in">Have</label>
           <input
@@ -41,6 +46,7 @@
             class="trade-input"
             id="trade_out"
             placeholder="trade out item"
+            required
           />
 
           <textarea
@@ -55,8 +61,7 @@
           <button type="submit" class="add-post-btn">Add Post</button>
         </form>
       </div>
-      <div class="all-posts-container" id="allPostsContainer">
-      </div>
+      <div class="all-posts-container" id="allPostsContainer"></div>
     </div>
     <script src="home.js"></script>
   </body>

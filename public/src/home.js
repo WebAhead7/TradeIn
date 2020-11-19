@@ -1,12 +1,16 @@
-const { email, password, posts, username } = JSON.parse(
-  localStorage.getItem("userdetails")
-);
-console.log({
-  email,
-  posts,
-  password,
-  username,
-});
+const homeUrl = "http://localhost:3000/";
+
+const userDetails = localStorage.getItem("userdetails");
+
+if (!userDetails) {
+  window.location.replace("/");
+}
+
+let { email, password, posts, username } = JSON.parse(userDetails);
+
+window.onload = () => {
+  writePosts(posts);
+};
 
 function writePosts(posts) {
   // posts is an arry of post object
@@ -63,6 +67,84 @@ function createTableBody(rowsData, rowPorperties) {
   return tbody;
 }
 
-window.onload = () => {
-  writePosts(posts);
-};
+document.getElementById("postForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const trade_in = document.getElementById("trade_in");
+  const trade_out = document.getElementById("trade_out");
+  const description = document.getElementById("description");
+  const post = {
+    email,
+    password,
+    trade_in: trade_in.value,
+    trade_out: trade_out.value,
+    text_content: description.value,
+  };
+  fetch(`${homeUrl}add-new-post`, {
+    method: "POST",
+    redirect: "follow",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(post),
+  })
+    .then((response) => {
+      console.log(response);
+      if (!response.ok) throw new Error("Response Error!");
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      posts.push({
+        trade_in: trade_in.value,
+        trade_out: trade_out.value,
+        text_content: description.value,
+        email,
+        username,
+      });
+      trade_in.value = "";
+      trade_out.value = "";
+      description.value = "";
+      writePosts(posts);
+    })
+    .catch(console.error);
+});
+
+document.getElementById("myPostsBtn").addEventListener("click", (event) => {
+  event.preventDefault();
+  writePosts(posts.filter((post) => post.email === email));
+});
+
+document.getElementById("allPostsBtn").addEventListener("click", (event) => {
+  event.preventDefault();
+  fetch(`${homeUrl}log-in`, {
+    method: "POST",
+    redirect: "follow",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Error fetch response");
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      const { url } = data;
+      if (url) {
+        posts = data.posts;
+        writePosts(posts);
+      }
+    })
+    .catch(console.error);
+});
+
+document.getElementById("loguot"),
+  addEventListener("click", (event) => {
+    event.preventDefault();
+    localStorage.removeItem("userdetails");
+    window.location.replace("/");
+  });
