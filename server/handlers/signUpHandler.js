@@ -3,14 +3,8 @@ const path = require('path');
 const models = require('../../database/models');
 
 function signUpHandler(request, response) {
-<<<<<<< HEAD
-  let body = "";
-  console.log("");
-  request.on("data", (chunk) => {
-=======
   let body = '';
   request.on('data', (chunk) => {
->>>>>>> 92604bc07f947629a4ec7a63a582aab62be26b18
     body += chunk;
   });
   request.on('end', () => {
