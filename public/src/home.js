@@ -1,133 +1,149 @@
-const { email, password, posts, username } = JSON.parse(
-  localStorage.getItem('userdetails')
-);
-console.log({
-  email,
-  posts,
-  password,
-  username,
-});
+const homeUrl = "http://localhost:3000/";
 
-function createPostElem(post) {
-  const div = document.createElement('div');
-  div.classList.add('alert', 'alert-primary');
-  div.innerText = `${post.text_content}`;
-  return div;
+const userDetails = localStorage.getItem("userdetails");
+
+if (!userDetails) {
+  window.location.replace("/");
 }
 
-function addPostsToContainer(newPosts, container) {
-  const postContainer = document.querySelector(container);
-  newPosts.forEach((post) => {
-    const newPostElem = createPostElem(post);
-    postContainer.prepend(newPostElem);
+let { email, password, posts, username } = JSON.parse(userDetails);
+
+window.onload = () => {
+  writePosts(posts);
+};
+
+function writePosts(posts) {
+  // posts is an arry of post object
+  const allPostContainer = document.getElementById("allPostsContainer");
+
+  allPostContainer.innerHTML = "";
+  const tradeTable = document.createElement("table");
+  tradeTable.classList.add("blueTable");
+  tradeTable.appendChild(
+    createTableHead(["Name", "Trade IN", "Trade OUT", "Description"])
+  );
+  tradeTable.appendChild(
+    createTableBody(posts, [
+      "username",
+      "trade_in",
+      "trade_out",
+      "text_content",
+    ])
+  );
+  allPostContainer.appendChild(tradeTable);
+}
+
+function createTableHead(headers) {
+  const thead = document.createElement("thead");
+  const tr = document.createElement("tr");
+  headers
+    .map((h, i) => {
+      const th = document.createElement("th");
+      if (i < 3) th.classList.add("small-table-item");
+      th.innerText = h;
+      return th;
+    })
+    .forEach((th) => tr.appendChild(th));
+  thead.appendChild(tr);
+  return thead;
+}
+
+function createTableBody(rowsData, rowPorperties) {
+  // rowsData is an arry of objects
+  const tbody = document.createElement("tbody");
+  console.log(rowsData);
+  const tableRows = rowsData.map((rowData) => {
+    const tr = document.createElement("tr");
+    rowPorperties
+      .map((prop) => {
+        const td = document.createElement("td");
+        td.innerText = rowData[prop];
+        return td;
+      })
+      .forEach((td) => tr.appendChild(td));
+    return tr;
   });
+  tableRows.forEach((tr) => tbody.appendChild(tr));
+  return tbody;
 }
 
-// eslint-disable-next-line no-shadow
-function filterPostsByEmail(email) {
-  return posts.filter((post) => post.email === email);
-}
-
-function getMyPosts() {
-  return filterPostsByEmail(email);
-}
-
-function showAllPostsOrMyPosts(allOrMy) {
-  if (allOrMy === 'all') {
-    document.querySelector('.my-posts-container').classList.add('hide');
-    document.querySelector('.all-posts-container').classList.remove('hide');
-  } else if (allOrMy === 'my') {
-    document.querySelector('.my-posts-container').classList.remove('hide');
-    document.querySelector('.all-posts-container').classList.add('hide');
-  }
-}
-
-function getFormInputs() {
-  const tradeIn = document.querySelector('.trade-in').value;
-  const tradeOut = document.querySelector('.trade-out').value;
-  const description = document.querySelector('.description').value;
-
-  return { tradeIn, tradeOut, description };
-}
-
-function restartFormInputs() {
-  document.querySelector('.trade-in').value = '';
-  document.querySelector('.trade-out').value = '';
-  document.querySelector('.description').value = '';
-}
-
-function updateContainersWithNewPost(newPost) {
-  addPostsToContainer([newPost], '.my-posts-container');
-  addPostsToContainer([newPost], '.all-posts-container');
-}
-
-function sendNewPostToServer(post) {
-  fetch('/add-new-post', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+document.getElementById("postForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const trade_in = document.getElementById("trade_in");
+  const trade_out = document.getElementById("trade_out");
+  const description = document.getElementById("description");
+  const post = {
+    email,
+    password,
+    trade_in: trade_in.value,
+    trade_out: trade_out.value,
+    text_content: description.value,
+  };
+  fetch(`/add-new-post`, {
+    method: "POST",
+    redirect: "follow",
+    headers: {
+      "content-type": "application/json",
+    },
     body: JSON.stringify(post),
   })
-    .then((response) => response.json())
-    .then((data) => console.log('Success:', data))
-    .catch((error) => console.log('Error:', error));
-}
-
-function validateInputs({ tradeIn, tradeOut, description }) {
-  const tradeInTrimmed = tradeIn.trim();
-  const tradeOutTrimmed = tradeOut.trim();
-  const descriptionTrimmed = description.trim();
-
-  if (!tradeInTrimmed) {
-    document.querySelector('.trade-in-alert').classList.remove('hide');
-  } else {
-    document.querySelector('.trade-in-alert').classList.add('hide');
-  }
-
-  if (!tradeOutTrimmed) {
-    document.querySelector('.trade-out-alert').classList.remove('hide');
-  } else {
-    document.querySelector('.trade-out-alert').classList.add('hide');
-  }
-
-  if (!descriptionTrimmed) {
-    document.querySelector('.description-alert').classList.remove('hide');
-  } else {
-    document.querySelector('.description-alert').classList.add('hide');
-  }
-
-  return tradeInTrimmed && tradeOutTrimmed && descriptionTrimmed;
-}
-
-window.addEventListener('load', () => {
-  addPostsToContainer(posts, '.all-posts-container');
-  const myPosts = getMyPosts();
-  addPostsToContainer(myPosts, '.my-posts-container');
+    .then((response) => {
+      console.log(response);
+      if (!response.ok) throw new Error("Response Error!");
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      posts.push({
+        trade_in: trade_in.value,
+        trade_out: trade_out.value,
+        text_content: description.value,
+        email,
+        username,
+      });
+      trade_in.value = "";
+      trade_out.value = "";
+      description.value = "";
+      writePosts(posts);
+    })
+    .catch(console.error);
 });
 
-document.querySelector('.my-posts-btn').addEventListener('click', () => {
-  showAllPostsOrMyPosts('my');
+document.getElementById("myPostsBtn").addEventListener("click", (event) => {
+  event.preventDefault();
+  writePosts(posts.filter((post) => post.email === email));
 });
 
-document.querySelector('.all-posts-btn').addEventListener('click', () => {
-  showAllPostsOrMyPosts('all');
+document.getElementById("allPostsBtn").addEventListener("click", (event) => {
+  event.preventDefault();
+  fetch(`/log-in`, {
+    method: "POST",
+    redirect: "follow",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("Error fetch response");
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      const { url } = data;
+      if (url) {
+        posts = data.posts;
+        writePosts(posts);
+      }
+    })
+    .catch(console.error);
 });
 
-document.querySelector('.form').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const { tradeIn, tradeOut, description } = getFormInputs();
-
-  if (!validateInputs({ tradeIn, tradeOut, description })) {
-    return;
-  }
-  restartFormInputs();
-  const newPost = {
-    email,
-    text_content: description,
-    trade_in: tradeIn,
-    trade_out: tradeOut,
-    username,
-  };
-  posts.unshift(newPost);
-  updateContainersWithNewPost(newPost);
-  sendNewPostToServer({ ...newPost, password });
+document.getElementById("logout").addEventListener("click", (event) => {
+  event.preventDefault();
+  localStorage.removeItem("userdetails");
+  window.location.replace("/");
 });
