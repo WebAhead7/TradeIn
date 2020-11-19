@@ -1,6 +1,4 @@
 # TradeIn
-
-# TradeIn
 We introduce you our trading website TRADEIN, that you can choose any item and trade it.
 Trade is a basic economic concept involving the buying and selling of goods and services, 
 with compensation paid by a buyer to a seller, or the exchange of goods or services between parties.
